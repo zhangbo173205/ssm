@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+    <context:component-scan base-package="com.itheima.Controller"></context:component-scan>
+
+
+    <mvc:annotation-driven conversion-service="conversionService"/>
+
+    <!--视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <!--自定义转换器-->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean  class="com.itheima.utils.StringToDateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!--释放静态资源-->
+    <!-- 设置静态资源不过滤 -->
+    <mvc:resources location="/css/" mapping="/css/**" />
+    <mvc:resources location="/img/" mapping="/img/**" />
+    <mvc:resources location="/js/" mapping="/js/**" />
+    <mvc:resources location="/plugins/" mapping="/plugins/**" />
+
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.ProductDao">
+
+
+
+    <select id="findAll" parameterType="product"  resultType="product">
+
+         SELECT * FROM product
+       <where>
+        <if test="productName!=null">
+            or productName LIKE #{productName}
+        </if>
+
+        <if  test="productDesc!=null">
+            or productDesc like #{productDesc}
+        </if>
+    </where>
+    </select>
+
+</mapper>

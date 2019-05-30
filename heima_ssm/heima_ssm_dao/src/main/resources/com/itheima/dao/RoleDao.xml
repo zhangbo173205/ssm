@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.RoleDao">
+
+
+
+    <select id="findAll" parameterType="role"  resultType="role">
+
+        SELECT * FROM role
+        <where>
+            <if test="roleName!=null">
+                or roleName LIKE #{roleName}
+            </if>
+
+            <if  test="roleDesc!=null">
+                or roleDesc like #{roleDesc}
+            </if>
+        </where>
+    </select>
+
+
+    <delete id="deleteRoleByUid" parameterType="java.lang.String">
+
+        delete from users_role
+        <where>
+
+            <if  test="rid!=null">
+                and roleid=#{rid}
+            </if>
+            <if test="uid!=null">
+                and userid=#{uid}
+            </if>
+
+        </where>
+    </delete>
+
+</mapper>
