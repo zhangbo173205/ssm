@@ -112,7 +112,7 @@
 											<i class="fa fa-file-o"></i> 新建
 										</button>
 										
-										<button type="button" class="btn btn-default" title="刷新">
+										<button type="button" class="btn btn-default" title="刷新" onclick="location.href='${pageContext.request.contextPath}/permission/findAll'">
 											<i class="fa fa-refresh"></i> 刷新
 										</button>
 									</div>
@@ -120,9 +120,9 @@
 							</div>
 							<div class="box-tools pull-right">
 								<div class="has-feedback">
-									<input type="text" class="form-control input-sm"
-										placeholder="搜索"> <span
-										class="glyphicon glyphicon-search form-control-feedback"></span>
+									<form action="${pageContext.request.contextPath}/permission/findAll" method="post" id="form">
+									<input type="text" class="form-control input-sm" placeholder="搜索" name="sth"></form> <span
+										class="glyphicon glyphicon-search form-control-feedback" onclick="search()"></span>
 								</div>
 							</div>
 							<!--工具栏/-->
@@ -143,7 +143,7 @@
 								</thead>
 								<tbody>
 
-									<c:forEach items="${permissionList}" var="p">
+									<c:forEach items="${pageInfo.list}" var="p">
 										<tr>
 											<td><input name="ids" type="checkbox"></td>
 											<td>${p.id }</td>
@@ -151,7 +151,7 @@
 											<td>${p.url }</td>
 											<td class="text-center">
 												<a href="${pageContext.request.contextPath}/permission/findById?id=${p.id}" class="btn bg-olive btn-xs">详情</a>
-												<a href="${pageContext.request.contextPath}/user/findUserByIdAndAllRole.do?id=${p.id}" class="btn bg-olive btn-xs">添加角色</a>
+												<a href="${pageContext.request.contextPath}/permission/findUserByIdAndAllRole?id=${p.id}" class="btn bg-olive btn-xs">添加角色</a>
 											</td>
 										</tr>
 									</c:forEach>

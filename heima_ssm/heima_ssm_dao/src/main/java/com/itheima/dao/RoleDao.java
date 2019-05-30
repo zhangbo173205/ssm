@@ -17,7 +17,7 @@ public interface RoleDao {
     })
     List<Role> findByUid(String id);
 
-    @Delete("delete from role_permission where PermissionId=#{pid} and roleId=#{rid}")
+
     void deletePermissionWithRole(@Param("rid")String rid, @Param("pid") String pid) throws Exception;
 
 
@@ -35,4 +35,7 @@ public interface RoleDao {
 
     @Insert("insert into role (roleName,roleDesc) values (#{roleName},#{roleDesc})")
     void save(Role role) throws Exception;
+
+    @Delete("delete from role where id=#{id}")
+    void deleteById(String id);
 }

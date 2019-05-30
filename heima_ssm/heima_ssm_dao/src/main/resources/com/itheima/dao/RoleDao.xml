@@ -36,4 +36,19 @@
         </where>
     </delete>
 
+    <delete id="deletePermissionWithRole" parameterType="java.lang.String">
+
+        delete from role_permission
+        <where>
+
+            <if  test="pid!=null">
+                and PermissionId=#{pid}
+            </if>
+            <if test="rid!=null">
+                and roleid=#{uid}
+            </if>
+
+        </where>
+    </delete>
+
 </mapper>

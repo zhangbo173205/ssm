@@ -64,6 +64,12 @@ public class RoleController {
         return "redirect:findAll";
     }
 
+    @RequestMapping("deleteById")
+    public String deleteById(String id) throws Exception {
+        roleService.deleteById(id);
+        return "redirect:findAll";
+    }
+
 
 
 

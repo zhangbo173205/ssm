@@ -2,6 +2,7 @@ package com.itheima.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.itheima.dao.RoleDao;
+import com.itheima.dao.UserDao;
 import com.itheima.domain.Role;
 import com.itheima.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class RoleServiceImpl implements  RoleService {
 
     @Autowired
     public RoleDao roleDao;
+
+    @Autowired
+    public UserDao userDao;
 
 
     @Override
@@ -47,5 +51,12 @@ public class RoleServiceImpl implements  RoleService {
     @Override
     public void save(Role role) throws Exception {
         roleDao.save(role);
+    }
+
+    @Override
+    public void deleteById(String id)throws Exception {
+        roleDao.deletePermissionWithRole(id,null);
+        userDao.deleteRoleByUid(id,null);
+        roleDao.deleteById(id);
     }
 }

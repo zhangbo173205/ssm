@@ -14,4 +14,6 @@ public interface RoleService {
     Role findById(String id) throws Exception;
 
     void save(Role role)throws Exception;
+
+    void deleteById(String id) throws Exception;
 }
