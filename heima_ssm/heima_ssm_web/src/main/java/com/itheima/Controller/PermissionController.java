@@ -50,4 +50,10 @@ public class PermissionController {
         mv.setViewName("Permission-show");
         return mv;
     }
+
+    @RequestMapping("deleteById")
+    public String deleteById(String id) throws Exception {
+        permissionService.deleteById(id);
+        return "redirect:findAll";
+    }
 }

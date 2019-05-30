@@ -2,6 +2,7 @@ package com.itheima.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.itheima.dao.PermissionDao;
+import com.itheima.dao.RoleDao;
 import com.itheima.domain.Permission;
 import com.itheima.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class PermissionServiceImpl implements PermissionService{
 
     @Autowired
     public PermissionDao permissionDao;
+    @Autowired
+    public RoleDao roleDao;
 
     @Override
     public List<Permission> findAll(int page, int pageSize, String sth) throws Exception {
@@ -40,5 +43,11 @@ public class PermissionServiceImpl implements PermissionService{
     @Override
     public void save(Permission p)throws Exception {
         permissionDao.save(p);
+    }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+        roleDao.deletePermissionWithRole(null,id);
+        permissionDao.deleteById(id);
     }
 }

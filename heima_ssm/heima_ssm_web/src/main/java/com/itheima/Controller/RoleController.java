@@ -34,7 +34,11 @@ public class RoleController {
     @RequestMapping("deletePermissionWithRole")
     public void deletePermissionWithRole(String pid, String rid,String uid, HttpServletRequest request, HttpServletResponse response) throws Exception{
         roleService.deletePermissionWithRole(rid,pid);
-        response.sendRedirect(request.getContextPath()+"/user/findById?id="+uid);
+        if (uid!=null&&uid.length()>0&&"null".equals(uid)) {
+            response.sendRedirect(request.getContextPath() + "/user/findById?id=" + uid);
+        }else{
+            response.sendRedirect(request.getContextPath() + "/permission/findById?id="+pid);
+        }
     }
 
 

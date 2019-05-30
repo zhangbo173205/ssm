@@ -151,7 +151,7 @@
 											<td>${p.url }</td>
 											<td class="text-center">
 												<a href="${pageContext.request.contextPath}/permission/findById?id=${p.id}" class="btn bg-olive btn-xs">详情</a>
-												<a href="${pageContext.request.contextPath}/permission/findUserByIdAndAllRole?id=${p.id}" class="btn bg-olive btn-xs">添加角色</a>
+												<a href="${pageContext.request.contextPath}/permission/deleteById?id=${p.id}" class="btn bg-olive btn-xs">删除权限</a>
 											</td>
 										</tr>
 									</c:forEach>
@@ -179,27 +179,34 @@
 					<div class="box-footer">
 						<div class="pull-left">
 							<div class="form-group form-inline">
-								总共2 页，共14 条数据。 每页 <select class="form-control">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+								总共${pageInfo.pages} 页，共${pageInfo.total}条数据。 每页
+								<select class="form-control" id="changePageSize" onchange="changePageSize()">
+									<c:forEach begin="1" end="5" var="i">
+										<c:if test="${pageInfo.pageSize==i}">
+											<option selected>${i}</option>
+										</c:if>
+										<c:if test="${pageInfo.pageSize!=i}">
+											<option >${i}</option>
+										</c:if>
+									</c:forEach>
 								</select> 条
 							</div>
 						</div>
 
 						<div class="box-tools pull-right">
 							<ul class="pagination">
-								<li><a href="#" aria-label="Previous">首页</a></li>
-								<li><a href="#">上一页</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#">下一页</a></li>
-								<li><a href="#" aria-label="Next">尾页</a></li>
+								<li>
+									<a href="${pageContext.request.contextPath}/permission/findAll?page=1&pageSize=${pageInfo.pageSize}&sth=${sth}" aria-label="Previous">首页</a>
+								</li>
+								<li><a href="${pageContext.request.contextPath}/permission/findAll?page=${pageInfo.pageNum-1}&pageSize=${pageInfo.pageSize}&sth=${sth}">上一页</a></li>
+								<c:forEach begin="1" end="${pageInfo.pages}" var="i">
+									<li><a href="${pageContext.request.contextPath}/permission/findAll?page=${i}&pageSize=${pageInfo.pageSize}&sth=${sth}">${i}</a></li>
+								</c:forEach>
+
+								<li><a href="${pageContext.request.contextPath}/permission/findAll?page=${pageInfo.pageNum+1}&pageSize=${pageInfo.pageSize}&sth=${sth}">下一页</a></li>
+								<li>
+									<a href="${pageContext.request.contextPath}/permission/findAll?page=${pageInfo.pages}&pageSize=${pageInfo.pageSize}&sth=${sth}" aria-label="Next">尾页</a>
+								</li>
 							</ul>
 						</div>
 
@@ -285,6 +292,12 @@
 					locale : 'zh-CN'
 				});
 			});
+
+
+            function changePageSize() {
+                var pageSize=$("#changePageSize").val();
+                location.href="${pageContext.request.contextPath}/permission/findAll?page=1&pageSize="+pageSize
+            }
 
 			// 设置激活菜单
 			function setSidebarActive(tagUri) {

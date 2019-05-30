@@ -144,24 +144,14 @@
 								</tr>
 
 								<tbody>
-									<c:forEach items="${permission.roles}" var="role" varStatus="vs">
-										<tr data-tt-id="${vs.index+1}" data-tt-parent-id="0">
+									<c:forEach items="${permission.roles}" var="role">
+										<tr data-tt-id="111-222" data-tt-parent-id="0">
 											<td>${role.roleName }</td>
 											<td>${role.roleDesc }</td>
 											<td class="text-center">
-												<a  class="btn bg-olive btn-xs" onclick="javascript:deleteRole('${role.id}','${user.id}')">删除</a>
+												<a  class="btn bg-olive btn-xs" onclick="javascript:deletePermission('${permission.id}','${role.id}')">删除</a>
 											</td>
 										</tr>
-										<c:forEach items="${role.permissions}" var="permission">
-											<tr data-tt-id="1-1" data-tt-parent-id="${vs.index+1}">
-												<td>${permission.permissionName}</td>
-												<td>${permission.url}</td>
-												<td class="text-center">
-													<a  class="btn bg-olive btn-xs" onclick="javascript:deletePermission('${permission.id}','${role.id}','${user.id}')">删除</a>
-												</td>
-											</tr>h
-
-										</c:forEach>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -296,16 +286,12 @@
 
 
 
-        function deleteRole(rid,uid) {
+        function deletePermission(pid,rid) {
             if(confirm("确定要删除吗?")){
-                location.href="${pageContext.request.contextPath}/user/deleteRoleWithUser?rid="+rid+"&uid="+uid
+                location.href="${pageContext.request.contextPath}/role/deletePermissionWithRole?pid="+rid+"&rid="+rid+"&uid="+null
             }
         }
-        function deletePermission(pid,rid,uid) {
-            if(confirm("确定要删除吗?")){
-                location.href="${pageContext.request.contextPath}/role/deletePermissionWithRole?pid="+pid+"&rid="+rid+"&uid="+uid;
-            }
-        }
+
 
 
 

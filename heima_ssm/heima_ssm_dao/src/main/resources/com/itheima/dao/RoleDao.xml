@@ -32,7 +32,6 @@
             <if test="uid!=null">
                 and userid=#{uid}
             </if>
-
         </where>
     </delete>
 
@@ -45,7 +44,7 @@
                 and PermissionId=#{pid}
             </if>
             <if test="rid!=null">
-                and roleid=#{uid}
+                and roleid=#{rid}
             </if>
 
         </where>

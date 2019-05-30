@@ -38,4 +38,7 @@ public interface RoleDao {
 
     @Delete("delete from role where id=#{id}")
     void deleteById(String id);
+
+    @Select("select r.* from role_permission rp ,role r where rp.roleid=r.id and  rp.permissionid=#{id}")
+    List<Role> findRoleWithPermissionByPid(String id);
 }

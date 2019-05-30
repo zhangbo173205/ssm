@@ -12,4 +12,6 @@ public interface PermissionService {
     Permission findById(String id) throws Exception;
 
     void save(Permission p)throws Exception;
+
+    void deleteById(String id) throws Exception;
 }
