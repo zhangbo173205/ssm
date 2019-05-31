@@ -1,6 +1,7 @@
 package com.itheima.dao;
 
 
+import com.itheima.domain.Role;
 import com.itheima.domain.UserInfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.security.core.parameters.P;
@@ -56,4 +57,10 @@ public interface UserDao {
 
     @Select("select u.*  from users_role ur ,users u where ur.userid=u.id and ur.roleid=#{rid}")
     List<UserInfo> findByRid(String rid);
+
+    @Select("select * from role where id not in (select Roleid from users_role where Userid=#{uid})")
+    List<Role> findOtherRole(String uid)throws Exception;
+
+    @Insert("insert into users_role values (#{uid},#{rid})")
+    void addRoleToUser(@Param("uid") String uid,@Param("rid") String rid) throws Exception;
 }

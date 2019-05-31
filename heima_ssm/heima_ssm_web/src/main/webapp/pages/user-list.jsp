@@ -163,7 +163,7 @@
 												<c:if test="${userInfo.status==1}">
 													<a href="${pageContext.request.contextPath}/user/updateStatus?id=${userInfo.id}" class="btn bg-olive btn-xs">屏蔽</a>
 												</c:if>
-												<a href="${pageContext.request.contextPath}/user/deleteById?id=${userInfo.id}" class="btn bg-olive btn-xs">删除角色</a>
+												<a  class="btn bg-olive btn-xs" onclick="javascript:deleteById('${userInfo.id}')">删除角色</a>
 
 											</td>
 											</td>
@@ -312,6 +312,12 @@
 					locale : 'zh-CN'
 				});
 			});
+
+            function deleteById(uid) {
+                if(confirm("确定要删除吗?")){
+                    location.href="${pageContext.request.contextPath}/user/deleteById?id="+uid
+                }
+            }
 
 			function reload1() {
 			    location.href="${pageContext.request.contextPath}/user/findAll";

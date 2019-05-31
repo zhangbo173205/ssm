@@ -99,4 +99,17 @@ public class UserServiceImpl implements UserService {
         userDao.deleteRoleByUid(null,id);
         userDao.deleteById(id);
     }
+
+    @Override
+    public List<Role> findOtherRole(String uid) throws Exception {
+
+        return userDao.findOtherRole(uid);
+    }
+
+    @Override
+    public void addRoleToUser(String uid, String[] ids) throws Exception {
+        for (String rid : ids) {
+            userDao.addRoleToUser(uid,rid);
+        }
+    }
 }

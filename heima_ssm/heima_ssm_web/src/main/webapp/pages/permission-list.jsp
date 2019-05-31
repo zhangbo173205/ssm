@@ -151,7 +151,7 @@
 											<td>${p.url }</td>
 											<td class="text-center">
 												<a href="${pageContext.request.contextPath}/permission/findById?id=${p.id}" class="btn bg-olive btn-xs">详情</a>
-												<a href="${pageContext.request.contextPath}/permission/deleteById?id=${p.id}" class="btn bg-olive btn-xs">删除权限</a>
+												<a class="btn bg-olive btn-xs" onclick="javascript:deleteById('${p.id}')">删除权限</a>
 											</td>
 										</tr>
 									</c:forEach>
@@ -293,6 +293,12 @@
 				});
 			});
 
+            function deleteById(pid) {
+                if(confirm("确定要删除吗?")){
+                    location.href="${pageContext.request.contextPath}/permission/deleteById?id="+pid
+                }
+            }
+
 
             function changePageSize() {
                 var pageSize=$("#changePageSize").val();
@@ -307,6 +313,7 @@
 					liObj.addClass("active");
 				}
 			}
+
 
 			$(document)
 					.ready(

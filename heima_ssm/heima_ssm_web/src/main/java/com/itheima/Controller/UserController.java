@@ -2,6 +2,7 @@ package com.itheima.Controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.itheima.domain.Role;
 import com.itheima.domain.UserInfo;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,23 @@ public class UserController {
     @RequestMapping("/deleteById")
     public String deleteById(String id) throws Exception {
       userService.deleteById(id);
+        return "redirect:findAll";
+    }
+
+    @RequestMapping("findUserByIdAndAllRole")
+    public ModelAndView findUserByIdAndAllRole(@RequestParam(name="id",required = true) String uid) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        UserInfo userInfo = userService.findById(uid);
+        List<Role> otherRole = userService.findOtherRole(uid);
+        mv.addObject("user", userInfo);
+        mv.addObject("roleList",otherRole);
+        mv.setViewName("user-role-add");
+        return mv;
+    }
+
+    @RequestMapping("addRoleToUser")
+    public String addRoleToUser(@RequestParam(name = "userId",required = true) String userId,String[] ids) throws Exception {
+        userService.addRoleToUser(userId,ids);
         return "redirect:findAll";
     }
 }

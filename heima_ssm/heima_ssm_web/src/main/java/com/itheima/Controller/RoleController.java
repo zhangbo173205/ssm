@@ -3,6 +3,7 @@ package com.itheima.Controller;
 
 
 import com.github.pagehelper.PageInfo;
+import com.itheima.domain.Permission;
 import com.itheima.domain.Role;
 import com.itheima.domain.UserInfo;
 import com.itheima.service.RoleService;
@@ -31,10 +32,10 @@ public class RoleController {
     public RoleService roleService;
 
 
-    @RequestMapping("deletePermissionWithRole")
+    @RequestMapping("/deletePermissionWithRole")
     public void deletePermissionWithRole(String pid, String rid,String uid, HttpServletRequest request, HttpServletResponse response) throws Exception{
         roleService.deletePermissionWithRole(rid,pid);
-        if (uid!=null&&uid.length()>0&&"null".equals(uid)) {
+        if (uid!=null&&uid.length()>0&&!"null".equals(uid)) {
             response.sendRedirect(request.getContextPath() + "/user/findById?id=" + uid);
         }else{
             response.sendRedirect(request.getContextPath() + "/permission/findById?id="+pid);
@@ -42,7 +43,7 @@ public class RoleController {
     }
 
 
-    @RequestMapping("findAll")
+    @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(name="page",required = true,defaultValue ="1")int page,@RequestParam(name="pageSize",required = true,defaultValue ="4")int pageSize,String sth) throws Exception{
         ModelAndView mv=new ModelAndView();
         List<Role> roles = roleService.findAll(page, pageSize, sth);
@@ -53,7 +54,7 @@ public class RoleController {
     }
 
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     public ModelAndView findById(String id) throws Exception{
         ModelAndView mv = new ModelAndView();
         Role role = roleService.findById(id);
@@ -62,19 +63,53 @@ public class RoleController {
         return mv;
     }
 
-    @RequestMapping("save")
+    @RequestMapping("/save")
     public String save(Role role) throws Exception {
         roleService.save(role);
         return "redirect:findAll";
     }
 
-    @RequestMapping("deleteById")
+    @RequestMapping("/deleteById")
     public String deleteById(String id) throws Exception {
         roleService.deleteById(id);
         return "redirect:findAll";
     }
 
+/*    @RequestMapping("/deleteById")
+    public String deleteById(String id) throws Exception {
+        userService.deleteById(id);
+        return "redirect:findAll";
+    }*/
 
+    /**
+     * 查询出指定的Role和他没有绑定的权限
+     * @param
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("findRoleByIdAndAllPermission")
+    public ModelAndView findRoleByIdAndAllPermission(@RequestParam(name="id",required = true) String rid) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        Role role = roleService.findById(rid);
+        List<Permission> otherPermission = roleService.findOtherPermission(rid);
+        mv.addObject("role",role);
+        mv.addObject("pList",otherPermission);
+        mv.setViewName("role-permission-add");
+        return mv;
+    }
+
+    /**
+     * 添加权限到指定role中
+     * @param rid
+     * @param ids
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("addPermissionToRole")
+    public String addPermissionToRole(@RequestParam(name = "roleId",required = true) String rid,String[] ids) throws Exception {
+        roleService.addPermissionToRole(rid,ids);
+        return "redirect:findAll";
+    }
 
 
 }

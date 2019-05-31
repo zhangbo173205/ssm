@@ -157,7 +157,7 @@
 												<td class="text-center">
 													<a  class="btn bg-olive btn-xs" onclick="javascript:deletePermission('${permission.id}','${role.id}','${user.id}')">删除</a>
 												</td>
-											</tr>h
+											</tr>
 
 										</c:forEach>
 									</c:forEach>
