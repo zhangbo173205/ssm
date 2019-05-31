@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 
@@ -42,6 +42,7 @@ public class ProductController {
 
 
     @RequestMapping("/findAll")
+    @RolesAllowed("ROLE_ADMIN")
     public ModelAndView findAll(@RequestParam(name="page",required = true,defaultValue = "1") int page,
                                 @RequestParam(name="pageSize",required = true,defaultValue = "4")int pageSize,String sth)throws Exception{
         ModelAndView mv=new ModelAndView();

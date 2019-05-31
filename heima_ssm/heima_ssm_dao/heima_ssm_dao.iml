@@ -49,8 +49,6 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.0.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-taglibs:5.0.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-acl:5.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.oracle:ojdbc14:10.2.0.1.0" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.1.12" level="project" />

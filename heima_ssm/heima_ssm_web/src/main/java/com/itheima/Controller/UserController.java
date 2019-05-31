@@ -6,7 +6,6 @@ import com.itheima.domain.Role;
 import com.itheima.domain.UserInfo;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
