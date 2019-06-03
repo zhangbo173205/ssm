@@ -23,6 +23,7 @@ public class Product {
     private String productNum;
     private String productName;
     private String cityName;
+
     private Date departureTime;
     private String departureTimeStr;
     private double productPrice;
@@ -48,4 +49,6 @@ public class Product {
         }
         return productStatusStr;
     }
+
+
 }

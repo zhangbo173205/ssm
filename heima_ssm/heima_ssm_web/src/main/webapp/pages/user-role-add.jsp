@@ -249,6 +249,7 @@
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
 			});
+            setSidebarActive("user");
 			// 全选操作 
 			$("#selall").click(function() {
 				var clicks = $(this).is(':checked');

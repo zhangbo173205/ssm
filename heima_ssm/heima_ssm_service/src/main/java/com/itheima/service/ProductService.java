@@ -13,4 +13,17 @@ public interface ProductService {
     void deleteIds(String[] ids)throws Exception;
 
     void deleteOne(String id)throws Exception;
+
+    Product findByPnum(Product product)throws Exception;
+
+    void updateStatusClose(String[] ids) throws Exception;
+
+    void updateStatusOpen(String[] ids) throws Exception;
+
+    Product findByPid(String id) throws Exception;
+
+    void updateProduct(Product product) throws Exception;
+
+    List<Product> findAllForOrder() throws Exception;
+
 }

@@ -5,6 +5,7 @@ import com.itheima.domain.Product;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface ProductDao {
 
 
-    /*@Select("select * from product")*/
+
     List<Product> findAll(Product product)throws Exception;
 
     @Insert("insert into product (productNum,productName,cityName,departureTime,productPrice,productDesc,productStatus) values" +
@@ -29,4 +30,16 @@ public interface ProductDao {
 
     @Delete("delete from product where id=#{id}")
     void deleteById(String id)throws Exception;
+
+    @Select("select * from product where productNum=#{productNum}")
+    Product findByPnum(Product product);
+
+    @Update("update product set productStatus=1 where id=#{id}")
+    void updateStatusOpen(String id) throws Exception;
+
+    @Update("update product set productStatus=0 where id=#{id}")
+    void updateStatusClose(String id) throws Exception;
+
+    @Update("update product set productName=#{productName},departureTime=#{departureTime}, cityName=#{cityName},productPrice=#{productPrice}, productStatus=#{productStatus},productDesc=#{productDesc} where productNum=#{productNum}")
+    void updateProduct(Product product) throws Exception;
 }

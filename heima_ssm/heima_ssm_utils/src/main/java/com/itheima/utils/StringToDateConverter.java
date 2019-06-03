@@ -13,7 +13,7 @@ import java.util.Date;
  * 把字符串传化为日期
  * @date 2019/5/18
  */
-public class StringToDateConverter implements Converter<String,Date> {
+public class StringToDateConverter  implements Converter<String,Date>  {
 
 
     /**
@@ -24,7 +24,7 @@ public class StringToDateConverter implements Converter<String,Date> {
     @Override
     public Date convert(String source){
 
-        if (source==null){
+        if (source==null||source.length()==0){
             throw new RuntimeException("请传入数据");
         }
 

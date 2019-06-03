@@ -61,45 +61,6 @@
 
 
 
-
-<!-- jQuery 2.2.3 -->
-<!-- jQuery UI 1.11.4 -->
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<!-- Bootstrap 3.3.6 -->
-<!-- Morris.js charts -->
-<!-- Sparkline -->
-<!-- jvectormap -->
-<!-- jQuery Knob Chart -->
-<!-- daterangepicker -->
-<!-- datepicker -->
-<!-- Bootstrap WYSIHTML5 -->
-<!-- Slimscroll -->
-<!-- FastClick -->
-<!-- iCheck -->
-<!-- AdminLTE App -->
-<!-- 表格树 -->
-<!-- select2 -->
-<!-- bootstrap color picker -->
-<!-- bootstrap time picker -->
-<!--<script src="${pageContext.request.contextPath}/${pageContext.request.contextPath}/${pageContext.request.contextPath}/plugins/timepicker/bootstrap-timepicker.min.js"></script>-->
-<!-- Bootstrap WYSIHTML5 -->
-<!--bootstrap-markdown-->
-<!-- CK Editor -->
-<!-- InputMask -->
-<!-- DataTables -->
-<!-- ChartJS 1.0.1 -->
-<!-- FLOT CHARTS -->
-<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
-<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
-<!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
-<!-- jQuery Knob -->
-<!-- Sparkline -->
-<!-- Morris.js charts -->
-<!-- Ion Slider -->
-<!-- Bootstrap slider -->
-<!-- bootstrap-datetimepicker -->
-<!-- 页面meta /-->
-
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -201,10 +162,10 @@
 										<button type="button" class="btn btn-default" title="删除" id="deleteIds">
 											<i class="fa fa-trash-o"></i> 删除
 										</button>
-										<button type="button" class="btn btn-default" title="开启">
+										<button type="button" class="btn btn-default" title="开启" id="updateStatusOpen">
 											<i class="fa fa-check"></i> 开启
 										</button>
-										<button type="button" class="btn btn-default" title="屏蔽">
+										<button type="button" class="btn btn-default" title="屏蔽" id="updateStatusClose">
 											<i class="fa fa-ban"></i> 屏蔽
 										</button>
 										<button type="button" class="btn btn-default" title="刷新" onclick="location.reload()" >
@@ -225,7 +186,7 @@
 
 							<!--数据列表-->
 
-							<form id="deleteSelect" action="${pageContext.request.contextPath}/product/delectSelect" method="post">
+							<form id="deleteSelect"  method="post">
 							<table id="dataList"
 								class="table table-bordered table-striped table-hover dataTable">
 								<thead>
@@ -260,9 +221,9 @@
 											<td>${product.productDesc }</td>
 											<td class="text-center">${product.productStatusStr }</td>
 											<td class="text-center">
-												<button type="button" class="btn bg-olive btn-xs">订单</button>
-												<button type="button" onclick="deleteOne(${product.id})" class="btn bg-olive btn-xs">删除</button>
-												<button type="button" class="btn bg-olive btn-xs">编辑</button>
+												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findOrdersByPid?id=${product.id}'">订单</button>
+												<button type="button" onclick="deleteOne('${product.id}')" class="btn bg-olive btn-xs">删除</button>
+												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/product/findById?id=${product.id}'">编辑</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -500,6 +461,44 @@
                     }
                 }
                 if (flag){
+                    $("#deleteSelect").prop("action","${pageContext.request.contextPath}/product/deleteSelect");
+                    $("#deleteSelect").submit();
+                }
+
+            }
+        })
+
+
+        $("#updateStatusOpen").click(function () {
+            var flag=false;
+            if(confirm("确定要开启吗")){
+                var elements= $(".ids")
+                for (var i=0;i<elements.length;i++){
+                    if (elements[i].checked){
+                        flag=true;
+                        break;
+                    }
+                }
+                if (flag){
+                    $("#deleteSelect").prop("action","${pageContext.request.contextPath}/product/updateStatusOpen");
+                    $("#deleteSelect").submit();
+                }
+
+            }
+        });
+
+        $("#updateStatusClose").click(function () {
+            var flag=false;
+            if(confirm("确定要开启吗")){
+                var elements= $(".ids")
+                for (var i=0;i<elements.length;i++){
+                    if (elements[i].checked){
+                        flag=true;
+                        break;
+                    }
+                }
+                if (flag){
+                    $("#deleteSelect").prop("action","${pageContext.request.contextPath}/product/updateStatusClose");
                     $("#deleteSelect").submit();
                 }
 
@@ -517,6 +516,7 @@
                     }
                 }
                 if (flag){
+                    $("#deleteSelect").prop("action","${pageContext.request.contextPath}/product/deleteSelect");
                     $("#deleteSelect").submit();
                 }
 
@@ -526,7 +526,7 @@
 
         function deleteOne(id) {
 			if(confirm("确定要删除该条商品吗")){
-			    location.href="${pageContext.request.contextPath}/product/delectOne?id="+id;
+			    location.href="${pageContext.request.contextPath}/product/deleteOne?id="+id;
 			}
         }
 
@@ -552,7 +552,7 @@
 		$(document).ready(function() {
 
 			// 激活导航位置
-			setSidebarActive("admin-datalist");
+			setSidebarActive("product");
 
 			// 列表按钮 
 			$("#dataList td input[type='checkbox']").iCheck({

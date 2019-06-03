@@ -1,7 +1,7 @@
 package com.itheima.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.itheima.dao.OrderDao;
+import com.itheima.dao.*;
 import com.itheima.domain.Orders;
 import com.itheima.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,11 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+
+
     @Autowired
-    public OrderDao orderDao;
+    private OrderDao orderDao;
+
 
     @Override
     public List<Orders> finAll(int page, int pageSize,String sth) throws Exception{
@@ -38,7 +41,39 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.fundById(num);
     }
 
+    @Override
+    public List<Orders> findOrdersByPid(String id) throws Exception {
+        return orderDao.findByPid(id);
+    }
 
+    @Override
+    public void deleteIds(String[] ids) throws Exception {
+            if (ids!=null&&ids.length>0){
+                for (String id : ids) {
+                    deleteById(id);
+                }
+     }
+    }
+
+
+    @Override
+    public void saveOrders(Orders order) throws Exception {
+
+    }
+
+    @Override
+    public void updateOrders(Orders order) throws Exception {
+
+    }
+
+    @Override
+    public void deleteById(String id) throws Exception {
+
+
+        orderDao.deleteRoleWithTraveller(id);
+
+        orderDao.deleteByid(id);
+    }
 
 
 }

@@ -6,6 +6,7 @@ import com.itheima.domain.Role;
 import com.itheima.domain.UserInfo;
 import com.itheima.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +29,10 @@ public class UserController {
     public UserService userService;
 
 
-    @RequestMapping("findAll")
-    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") int page,
-                                @RequestParam(name = "pageSize", required = true, defaultValue = "4") int pageSize, String sth) throws Exception {
+    @RequestMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
+                                @RequestParam(name = "pageSize", required = true, defaultValue = "4") Integer pageSize, String sth) throws Exception {
         ModelAndView mv = new ModelAndView();
         List<UserInfo> users = userService.findAll(page, pageSize, sth);
         PageInfo<UserInfo> pageInfo = new PageInfo<>(users);
@@ -40,13 +42,20 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("save")
+    @RequestMapping("/save")
+    @PreAuthorize("authentication.principal.username=='zb'")
     public String save(UserInfo userInfo) throws Exception {
-        userService.save(userInfo);
-        return "redirect:findAll";
+        if (userInfo.getUsername()!=null&&!"".equals(userInfo.getUsername())){
+            userService.save(userInfo);
+            return "redirect:findAll";
+        }else{
+            return "user-add" ;
+
+        }
+
     }
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     public ModelAndView findById(String id) throws Exception {
         ModelAndView mv = new ModelAndView();
 
@@ -77,7 +86,7 @@ public class UserController {
         return "redirect:findAll";
     }
 
-    @RequestMapping("findUserByIdAndAllRole")
+    @RequestMapping("/findUserByIdAndAllRole")
     public ModelAndView findUserByIdAndAllRole(@RequestParam(name="id",required = true) String uid) throws Exception {
         ModelAndView mv = new ModelAndView();
         UserInfo userInfo = userService.findById(uid);
@@ -88,8 +97,8 @@ public class UserController {
         return mv;
     }
 
-    @RequestMapping("addRoleToUser")
-    public String addRoleToUser(@RequestParam(name = "userId",required = true) String userId,String[] ids) throws Exception {
+    @RequestMapping("/addRoleToUser")
+    public String addRoleToUser(@RequestParam(name = "userId",required = true) String userId,@RequestParam(name="ids",required = true) String[] ids) throws Exception {
         userService.addRoleToUser(userId,ids);
         return "redirect:findAll";
     }

@@ -251,6 +251,7 @@
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
 			});
+            setSidebarActive("user")
 		});
 
 		// 设置激活菜单

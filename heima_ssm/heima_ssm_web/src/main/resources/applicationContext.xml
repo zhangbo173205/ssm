@@ -13,8 +13,10 @@
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <context:component-scan base-package="com.itheima.dao"/>
-    <context:component-scan base-package="com.itheima.service"/>
+
+    <context:component-scan base-package="com.itheima">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
+    </context:component-scan>
 
     <context:property-placeholder location="classpath:db.properties"/>
     <!--配置连接池-->
@@ -53,12 +55,10 @@
 
     <!--service层注解-->
     <!--开启注解扫描-->
-    <context:component-scan base-package="com.itheima">
-        <!--配置那些不扫描-->
+    <!--<context:component-scan base-package="com.itheima">
+        &lt;!&ndash;配置那些不扫描&ndash;&gt;
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:exclude-filter>
-    </context:component-scan>
-
-
+    </context:component-scan>-->
     <!--配置spring框架声明式事务管理-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
@@ -80,5 +80,6 @@
     </aop:config>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
 
 </beans>

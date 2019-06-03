@@ -45,4 +45,27 @@ public interface OrderDao {
 
     @Delete("delete from orders where productid=#{pid}")
     public void deleteByPid(String pid) throws Exception;
+
+    @Select("select * from orders where productId=#{id}")
+    @Results(
+            value = {
+                    @Result(id = true,property = "id",column = "id"),
+                    @Result(property = "orderNum",column = "orderNum"),
+                    @Result(property = "orderTime",column = "orderTime"),
+                    @Result(property = "peopleCount",column = "peopleCount"),
+                    @Result(property = "orderDesc",column = "orderDesc"),
+                    @Result(property = "payType",column = "payType"),
+                    @Result(property = "orderStatus",column = "orderStatus"),
+                    @Result(property = "product",column = "productId",one = @One(select = "com.itheima.dao.ProductDao.findById")),
+                    @Result(property = "member",column = "memberId",one = @One(select = "com.itheima.dao.MemberDao.findById")),
+                    @Result(property = "travellers", column = "id", many=@Many(select = "com.itheima.dao.TravellerDao.findByOid"))
+            }
+    )
+    List<Orders> findByPid(String id) throws Exception;
+
+    @Delete("delete from order_traveller where orderid=#{id} ")
+    void deleteRoleWithTraveller(String id);
+
+    @Delete("delete from orders where id=#{id}")
+    void deleteByid(String id);
 }

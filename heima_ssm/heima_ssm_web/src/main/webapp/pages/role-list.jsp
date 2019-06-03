@@ -320,40 +320,40 @@
 				}
 			}
 
-			$(document)
-					.ready(
-							function() {
+            $(document)
+                .ready(
+                    function () {
 
-								// 激活导航位置
-								setSidebarActive("admin-datalist");
+                        // 激活导航位置
+                        setSidebarActive("role");
 
-								// 列表按钮 
-								$("#dataList td input[type='checkbox']")
-										.iCheck(
-												{
-													checkboxClass : 'icheckbox_square-blue',
-													increaseArea : '20%'
-												});
-								// 全选操作 
-								$("#selall")
-										.click(
-												function() {
-													var clicks = $(this).is(
-															':checked');
-													if (!clicks) {
-														$(
-																"#dataList td input[type='checkbox']")
-																.iCheck(
-																		"uncheck");
-													} else {
-														$(
-																"#dataList td input[type='checkbox']")
-																.iCheck("check");
-													}
-													$(this).data("clicks",
-															!clicks);
-												});
-							});
+                        // 列表按钮
+                        $("#dataList td input[type='checkbox']")
+                            .iCheck(
+                                {
+                                    checkboxClass: 'icheckbox_square-blue',
+                                    increaseArea: '20%'
+                                });
+                        // 全选操作
+                        $("#selall")
+                            .click(
+                                function () {
+                                    var clicks = $(this).is(
+                                        ':checked');
+                                    if (!clicks) {
+                                        $(
+                                            "#dataList td input[type='checkbox']")
+                                            .iCheck(
+                                                "uncheck");
+                                    } else {
+                                        $(
+                                            "#dataList td input[type='checkbox']")
+                                            .iCheck("check");
+                                    }
+                                    $(this).data("clicks",
+                                        !clicks);
+                                });
+                    });
 		</script>
 </body>
 

@@ -44,7 +44,8 @@ public class RoleController {
 
 
     @RequestMapping("/findAll")
-    public ModelAndView findAll(@RequestParam(name="page",required = true,defaultValue ="1")int page,@RequestParam(name="pageSize",required = true,defaultValue ="4")int pageSize,String sth) throws Exception{
+    public ModelAndView findAll(@RequestParam(name="page",required = true,defaultValue = "1") Integer page,
+                                @RequestParam(name="pageSize",required = true,defaultValue = "4")Integer pageSize,@RequestParam(name="sth",required = true,defaultValue = "null")String sth) throws Exception{
         ModelAndView mv=new ModelAndView();
         List<Role> roles = roleService.findAll(page, pageSize, sth);
         PageInfo<Role> pageInfo=new PageInfo<>(roles);
@@ -64,9 +65,14 @@ public class RoleController {
     }
 
     @RequestMapping("/save")
-    public String save(Role role) throws Exception {
-        roleService.save(role);
-        return "redirect:findAll";
+    public String save( Role role) throws Exception {
+        if (!"".equals(role.getRoleDesc())&&!"".equals(role.getRoleName())){
+            roleService.save(role);
+            return "redirect:findAll";
+        }else {
+            return "role-add";
+        }
+
     }
 
     @RequestMapping("/deleteById")
@@ -87,7 +93,7 @@ public class RoleController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("findRoleByIdAndAllPermission")
+    @RequestMapping("/findRoleByIdAndAllPermission")
     public ModelAndView findRoleByIdAndAllPermission(@RequestParam(name="id",required = true) String rid) throws Exception {
         ModelAndView mv = new ModelAndView();
         Role role = roleService.findById(rid);
@@ -105,8 +111,8 @@ public class RoleController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("addPermissionToRole")
-    public String addPermissionToRole(@RequestParam(name = "roleId",required = true) String rid,String[] ids) throws Exception {
+    @RequestMapping("/addPermissionToRole")
+    public String addPermissionToRole(@RequestParam(name = "roleId",required = true) String rid,@RequestParam(name="ids",required = true) String[] ids) throws Exception {
         roleService.addPermissionToRole(rid,ids);
         return "redirect:findAll";
     }

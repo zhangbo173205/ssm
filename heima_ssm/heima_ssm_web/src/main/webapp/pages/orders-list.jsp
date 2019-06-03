@@ -194,11 +194,10 @@
 							<div class="pull-left">
 								<div class="form-group form-inline">
 									<div class="btn-group">
-										<button type="button" class="btn btn-default" title="新建"
-											>
+										<button type="button" class="btn btn-default" title="新建" onclick= "location.href='${pageContext.request.contextPath}/product/findAllForOrder'">
 											<i class="fa fa-file-o"></i> 新建
 										</button>
-										<button type="button" class="btn btn-default" title="删除">
+										<button type="button" class="btn btn-default" title="删除所选" id="deleteIds">
 											<i class="fa fa-trash-o"></i> 删除
 										</button>
 										<button type="button" class="btn btn-default" title="开启">
@@ -224,6 +223,7 @@
 							<!--工具栏/-->
 
 							<!--数据列表-->
+							<form id="deleteSelect"  method="post">
 							<table id="dataList"
 								class="table table-bordered table-striped table-hover dataTable">
 								<thead>
@@ -244,9 +244,8 @@
 
 
 									<c:forEach items="${pageInfo.list}" var="orders">
-
 										<tr>
-											<td><input name="ids" type="checkbox"></td>
+											<td><input name="ids" type="checkbox" value="${orders.id}" class="ids"></td>
 											<td>${orders.id }</td>
 											<td>${orders.orderNum }</td>
 											<td>${orders.product.productName }</td>
@@ -254,9 +253,9 @@
 											<td>${orders.orderTimeStr }</td>
 											<td class="text-center">${orders.orderStatusStr }</td>
 											<td class="text-center">
-												<button type="button" class="btn bg-olive btn-xs">订单</button>
+												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/deleteById?id=${orders.id}'">删除</button>
 												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findByNum?orderNum=${orders.orderNum}'">详情</button>
-												<button type="button" class="btn bg-olive btn-xs">编辑</button>
+												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findByNum?orderNum=${orders.orderNum}'">编辑</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -272,6 +271,7 @@
                             </tr>
                             </tfoot>-->
 							</table>
+							</form>
 							<!--数据列表/-->
 
 							<!--工具栏-->
@@ -491,7 +491,27 @@
 
         }
 
-		// 设置激活菜单
+
+        $("#deleteIds").click(function () {
+            var flag=false;
+            if(confirm("确定要删除吗")){
+                var elements= $(".ids")
+                for (var i=0;i<elements.length;i++){
+                    if (elements[i].checked){
+                        flag=true;
+                        break;
+                    }
+                }
+                if (flag){
+                    $("#deleteSelect").prop("action","${pageContext.request.contextPath}/orders/deleteSelect");
+                    $("#deleteSelect").submit();
+                }
+
+            }
+        })
+
+
+        // 设置激活菜单
 		function setSidebarActive(tagUri) {
 			var liObj = $("#" + tagUri);
 			if (liObj.length > 0) {
@@ -503,7 +523,7 @@
 		$(document).ready(function() {
 
 			// 激活导航位置
-			setSidebarActive("admin-datalist");
+			setSidebarActive("orders");
 
 			// 列表按钮 
 			$("#dataList td input[type='checkbox']").iCheck({

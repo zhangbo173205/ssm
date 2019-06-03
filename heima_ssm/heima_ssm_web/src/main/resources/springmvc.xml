@@ -3,25 +3,36 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/mvc
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd
+       http://www.springframework.org/schema/aop
+	   http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 
 
-    <context:component-scan base-package="com.itheima.Controller"></context:component-scan>
-
+   <!-- <context:component-scan base-package="com.itheima.Controller"></context:component-scan>-->
+    <context:component-scan base-package="com.itheima">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
+    </context:component-scan>
 
     <mvc:annotation-driven conversion-service="conversionService"/>
+
 
     <!--视图解析器-->
     <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+    <!--配置异常处理器-->
+    <bean id="sysExceptionResolver" class="com.itheima.utils.SysExceptionResolver"/>
 
 
     <!--自定义转换器-->
@@ -32,6 +43,13 @@
             </set>
         </property>
     </bean>
+
+    <bean id="logAop" class="com.itheima.Controller.LogAop"/>
+
+    <aop:aspectj-autoproxy expose-proxy="true"/>
+
+    <security:global-method-security secured-annotations="enabled" jsr250-annotations="enabled" pre-post-annotations="enabled"/>
+
 
     <!--释放静态资源-->
     <!-- 设置静态资源不过滤 -->

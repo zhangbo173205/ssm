@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -91,7 +92,7 @@
         </section>
         <!-- 内容头部 /-->
 
-        <form id="registerForm" action="${pageContext.request.contextPath}/product/saveProduct">
+        <form id="registerForm" action="${pageContext.request.contextPath}/product/updateProduct">
             <!-- 正文区域 -->
             <section class="content"> <!--产品信息-->
 
@@ -101,13 +102,13 @@
 
                         <div class="col-md-2 title">产品编号</div>
                         <div class="col-md-4 data">
-                            <input id="pnum" type="text" class="form-control" name="productNum"
-                                   placeholder="产品编号" value="">
+                            <input   type="text" class="form-control" name="productNum"
+                                    value="${product.productNum}" readonly="readonly">
                         </div>
                         <div class="col-md-2 title">产品名称</div>
                         <div class="col-md-4 data">
                             <input id="pname" type="text" class="form-control" name="productName"
-                                   placeholder="产品名称" value="">
+                                   value="${product.productName}" >
                         </div>
                         <div class="col-md-2 title">出发时间</div>
                         <div class="col-md-4 data">
@@ -116,7 +117,7 @@
                                     <i class="fa fa-calendar"></i>
                                 </div>
                                 <input type="text" class="form-control pull-right"
-                                       id="datepicker-a3" name="departureTime">
+                                       id="datepicker-a3" name="departureTime" value="${product.departureTimeStr}">
                             </div>
                         </div>
 
@@ -124,35 +125,42 @@
                         <div class="col-md-2 title">出发城市</div>
                         <div class="col-md-4 data">
                             <input id="city" type="text" class="form-control" name="cityName"
-                                   placeholder="出发城市" value="">
+                                    value="${product.cityName}">
                         </div>
 
                         <div class="col-md-2 title">产品价格</div>
                         <div class="col-md-4 data">
-                            <input id="price" type="text" class="form-control" placeholder="产品价格"
-                                   name="productPrice" value="">
+                            <input id="price" type="text" class="form-control"
+                                   name="productPrice" value="${product.productPrice}">
                         </div>
 
                         <div class="col-md-2 title">产品状态</div>
                         <div class="col-md-4 data">
                             <select  class="form-control select2" style="width: 100%"
                                     name="productStatus">
-                                <option value="0" selected="selected">关闭</option>
-                                <option value="1">开启</option>
+                                <c:if test="${product.productStatus==0}">
+                                    <option value="0" selected="selected">关闭</option>
+                                    <option value="1">开启</option>
+                                </c:if>
+                                <c:if test="${product.productStatus==1}">
+                                    <option value="0" >关闭</option>
+                                    <option value="1" selected="selected">开启</option>
+                                </c:if>
+
                             </select>
                         </div>
 
                         <div class="col-md-2 title rowHeight2x">其他信息</div>
                         <div class="col-md-10 data rowHeight2x">
-							<textarea class="form-control" rows="3" placeholder="其他信息"
-                                      name="productDesc"></textarea>
+							<textarea class="form-control" rows="3"
+                                      name="productDesc" value="${product.productDesc}"></textarea>
                         </div>
 
                     </div>
                 </div>
                 <!--订单信息/--> <!--工具栏-->
                 <div class="box-tools text-center">
-                    <button type="submit" class="btn bg-maroon">保存</button>
+                    <button type="submit" class="btn bg-maroon">修改</button>
                     <button type="button" class="btn bg-default"
                             onclick="history.back(-1);">返回</button>
                 </div>
@@ -304,42 +312,15 @@
         //当表单提交时,调用所有的校准方法
         $("#registerForm").submit(function () {
             //1.发送数据到服务器
-            return checkPnum()&&checkTime()&&checkPrice();
+            return checkTime()&&checkPrice();
         });
 
-        $("#pnum").blur(checkPnum);
         $("#datepicker-a3").blur(checkTime);
         $("#price").blur(checkPrice);
 
     });
 
-    function checkPnum() {
-        //1.获取用户名的值
-        var productNum = $("#pnum").val();
-        var flag=true;
-        if (productNum) {
-            $.ajax({
-                url:"${pageContext.request.contextPath}/product/findByPnum",
-                contentType:"application/json;charset=utf-8",
-                data:JSON.stringify({"productNum":productNum}),
-                dataType:"json",
-                type:"post",
-                success:function (data) {
-                    if(data){
-                        $("#pnum").css("border","1px solid red");
-                    }else{
-                        $("#pnum").css("border","");
-                    }
-                }
-            })
 
-        } else {
-            $("#pnum").css("border","1px solid red");
-            flag=false;
-        }
-        return flag
-
-    }
 
     function checkTime() {
         //1.获取用户名的值

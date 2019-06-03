@@ -273,7 +273,7 @@
 		$(document).ready(function() {
 
 			// 激活导航位置
-			setSidebarActive("admin-datalist");
+			setSidebarActive("user");
 
 			// 列表按钮 
 			$("#dataList td input[type='checkbox']").iCheck({

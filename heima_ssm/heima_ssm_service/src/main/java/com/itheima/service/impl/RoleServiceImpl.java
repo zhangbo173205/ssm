@@ -35,7 +35,7 @@ public class RoleServiceImpl implements  RoleService {
     @Override
     public List<Role> findAll(int page, int pageSize, String sth) throws Exception {
         Role role=new Role();
-        if(sth!=null){
+        if(sth!=null&&sth.length()>0&&!"null".equals(sth)){
             role.setRoleName("%"+sth+"%");
             role.setRoleDesc("%"+sth+"%");
         }

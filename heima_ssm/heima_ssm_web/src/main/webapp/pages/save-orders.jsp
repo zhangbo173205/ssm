@@ -82,87 +82,73 @@
 
 			<!-- 内容头部 -->
 			<section class="content-header">
-			<h1>
-				订单管理 <small>全部订单</small>
-			</h1>
-			<ol class="breadcrumb">
-				<li><a href="all-admin-index.html"><i
-						class="fa fa-dashboard"></i> 首页</a></li>
-				<li><a href="all-order-manage-list.html">订单管理</a></li>
-				<li class="active">订单详情</li>
-			</ol>
+				<h1>
+					订单管理
+					<small>订单表单</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
+					<li><a href="all-order-manage-list.html">订单管理</a></li>
+					<li class="active">订单表单</li>
+				</ol>
 			</section>
 			<!-- 内容头部 /-->
 
 			<!-- 正文区域 -->
+			<form id="form" method="post" action="${pageContext.request.contextPath}/orders/saveOrders">
 			<section class="content"> <!--订单信息-->
 
-			<div class="panel panel-default">
-				<div class="panel-heading">订单信息</div>
-				<div class="row data-type">
+				<div class="panel panel-default">
+					<div class="panel-heading">订单信息</div>
+					<div class="row data-type">
 
-					<div class="col-md-2 title">订单编号</div>
-					<div class="col-md-4 data">
-						<input type="text" class="form-control" placeholder="订单编号"
-							value="${orders.orderNum }" readonly="readonly">
-					</div>
-
-					<div class="col-md-2 title">下单时间</div>
-					<div class="col-md-4 data">
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
-							<input type="text" class="form-control pull-right"
-								id="datepicker-a3" readonly="readonly"
-								value="${orders.orderTimeStr}">
+						<div class="col-md-2 title">订单编号</div>
+						<div class="col-md-4 data">
+							<input type="text" class="form-control" placeholder="订单编号"
+								   name="orderNum" >
 						</div>
-					</div>
-					<div class="col-md-2 title">路线名称</div>
-					<div class="col-md-4 data">
-						<input type="text" class="form-control" placeholder="路线名称"
-							value="${orders.product.productName }" readonly="readonly">
-					</div>
 
-					<div class="col-md-2 title">出发城市</div>
-					<div class="col-md-4 data">
-						<input type="text" class="form-control" placeholder="出发城市"
-							value="${orders.product.cityName }" readonly="readonly">
-					</div>
-
-					<div class="col-md-2 title">出发时间</div>
-					<div class="col-md-4 data">
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
+						<div class="col-md-2 title">下单时间</div>
+						<div class="col-md-4 data">
+							<div class="input-group date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input type="text" class="form-control pull-right"
+									   id="datepicker-a3"
+									   name="orderTimeStr">
 							</div>
-							<input type="text" class="form-control pull-right"
-								id="datepicker-a6" value="${orders.product.departureTimeStr}"
-								readonly="readonly">
 						</div>
-					</div>
-					<div class="col-md-2 title">出游人数</div>
-					<div class="col-md-4 data">
-						<input type="text" class="form-control" placeholder="出游人数"
-							value="${orders.peopleCount}" readonly="readonly">
-					</div>
+						<div class="col-md-2 title">路线名称</div>
+						<div class="col-md-4 data">
+							<select id="productName" class="form-control select2" style="width: 100%;" name="product.productName">
+								<c:forEach items="${products}" var="product" >
+									<option value="${product.productName}" selected="selected">${product.productName}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="col-md-2 title">出游人数</div>
+						<div class="col-md-4 data">
+							<input id="peoplenum" type="text" class="form-control"
+								   name="peopleCount">
+						</div>
 
-					<div class="col-md-2 title rowHeight2x">其他信息</div>
-					<div class="col-md-10 data rowHeight2x">
-						<textarea class="form-control" rows="3" placeholder="其他信息">
-							${orders.orderDesc }
+						<div class="col-md-2 title rowHeight2x">其他信息</div>
+						<div class="col-md-10 data rowHeight2x">
+						<textarea class="form-control" name="orderDesc" rows="3" placeholder="其他信息">
+
 						</textarea>
-					</div>
+						</div>
 
+					</div>
 				</div>
-			</div>
-			<!--订单信息/--> <!--游客信息-->
-			<div class="panel panel-default">
-				<div class="panel-heading">游客信息</div>
-				<!--数据列表-->
-				<table id="dataList"
-					class="table table-bordered table-striped table-hover dataTable">
-					<thead>
+				<!--订单信息/--> <!--游客信息-->
+				<div class="panel panel-default">
+					<div class="panel-heading">游客信息</div>
+					<!--数据列表-->
+					<table id="dataList"
+						   class="table table-bordered table-striped table-hover dataTable">
+						<thead>
 						<tr>
 							<th class="">人群</th>
 							<th class="">姓名</th>
@@ -171,73 +157,109 @@
 							<th class="">证件类型</th>
 							<th class="">证件号码</th>
 						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="traveller" items="${orders.travellers}">
+						</thead>
+						<tbody id="tbody">
+						<%--<c:forEach begin="0" end="${pageScope.num}" var="i">
 
 							<tr>
-								<td>${traveller.travellerTypeStr}</td>
-								<td><input type="text" size="10" value="${traveller.name }"
-									readonly="readonly"></td>
-								<td><input type="text" size="10" value="${traveller.sex }"
-									readonly="readonly"></td>
+								<td>
+									<select class="form-control" style="height:28px" name="travellers[${i}].travellerType">
+										<option value="1" selected>儿童</option>
+										<option value="0">成人</option>
+									</select>
+								</td>
+								<td>
+									<input type="text" size="10" name="travellers[${i}].name">
+								</td>
+								<td>
+									<select class="form-control" style="height:28px" name="travellers[${i}].sex">
+									<option value="男" selected>男</option>
+									<option value="女">女</option>
+									</select>
+								</td>
+
 								<td><input type="text" size="20"
-									value="${traveller.phoneNum }" readonly="readonly"></td>
-								<td><input type="text" size="15"
-									value="${traveller.credentialsTypeStr}" readonly="readonly"></td>
-								<td><input type="text" size="28"
-									value="${traveller.credentialsNum }" readonly="readonly"></td>
+										   name="travellers[${i}].phoneNum" >
+								</td>
+								<td><select class="form-control" style="height:28px" name="travellers[${i}].credentialsType}">
+									<option value="0" selected>身份证</option>
+									<option value="1">护照</option>
+									<option value="2">军官证</option>
+								</select>
+								</td>
+								<td>
+									<input type="text" size="28" name="travellers[${i}].credentialsNum" >
+							    </td>
 							</tr>
 						</c:forEach>
 
-
-					</tbody>
-				</table>
-				<!--数据列表/-->
-			</div>
-			<!--游客信息/--> <!--联系人信息-->
-			<div class="panel panel-default">
-				<div class="panel-heading">联系人信息</div>
-				<div class="row data-type">
-
-					<div class="col-md-2 title">会员</div>
-					<div class="col-md-4 data text">${orders.member.nickname }</div>
-
-					<div class="col-md-2 title">联系人</div>
-					<div class="col-md-4 data text">${orders.member.name}</div>
-
-					<div class="col-md-2 title">手机号</div>
-					<div class="col-md-4 data text">${orders.member.phoneNum}</div>
-
-					<div class="col-md-2 title">邮箱</div>
-					<div class="col-md-4 data text">${orders.member.email}</div>
-
+--%>
+						</tbody>
+					</table>
+					<!--数据列表/-->
 				</div>
-			</div>
-			<!--联系人信息/--> <!--费用信息--> <c:if test="${orders.orderStatus==1}">
+				<!--游客信息/--> <!--联系人信息-->
 				<div class="panel panel-default">
-					<div class="panel-heading">费用信息</div>
+					<div class="panel-heading">联系人信息</div>
 					<div class="row data-type">
 
-						<div class="col-md-2 title">支付方式</div>
-						<div class="col-md-4 data text">在线支付-${orders.payTypeStr}</div>
+						<div class="col-md-2 title">会员</div>
+						<div class="col-md-4 data text">
+							<input  type="text" class="form-control"
+								   name="Member.nickname" value="">
+						</div>
 
-						<div class="col-md-2 title">金额</div>
-						<div class="col-md-4 data text">￥${orders.product.productPrice}</div>
+						<div class="col-md-2 title">联系人</div>
+						<div class="col-md-4 data text">
+							<input  type="text" class="form-control"
+								   name="Member.name" value="">
+						</div>
+
+						<div class="col-md-2 title">手机号</div>
+						<div class="col-md-4 data text">
+							<input  type="text" class="form-control"
+									name="Member.phoneNum" value="">
+						</div>
+
+						<div class="col-md-2 title">邮箱</div>
+						<div class="col-md-4 data text">
+							<input  type="text" class="form-control"
+									name="Member.email" value="">
+						</div>
 
 					</div>
 				</div>
-			</c:if> <!--费用信息/--> <!--工具栏-->
-			<div class="box-tools text-center">
+				<!--联系人信息/--> <!--费用信息-->
+					<div class="panel panel-default">
+						<div class="panel-heading">费用信息</div>
+						<div class="row data-type">
 
-				<button type="button" class="btn bg-default"
-					onclick="history.back(-1);">返回</button>
-			</div>
-			<!--工具栏/--> </section>
-			<!-- 正文区域 /-->
-
-
-		</div>
+							<div class="col-md-2 title">订单状态</div>
+							<div class="col-md-4 data text">
+								<select class="form-control" style="height:28px" name="orderStatus">
+									<option value="0" selected>未支付</option>
+									<option value="1">已支付</option>
+								</select>
+								</div>
+							<div class="col-md-2 title">支付方式</div>
+							<div class="col-md-4 data text">
+								<select class="form-control" style="height:28px" name="payType">
+									<option value="0" selected>支付宝</option>
+									<option value="1">微信</option>
+									<option value="2">其他</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				<!--费用信息/--> <!--工具栏-->
+				<div class="box-tools text-center">
+					<button type="submit" class="btn bg-maroon">保存</button>
+					<button type="button" class="btn bg-default"
+							onclick="history.back(-1);">返回</button>
+				</div>
+				<!--工具栏/-->
+			</section>
+			</form>
 		<!-- 内容区域 /-->
 
 		<!-- 底部导航 -->
@@ -250,7 +272,7 @@
 		</strong> All rights reserved. </footer>
 		<!-- 底部导航 /-->
 
-	</div>
+
 
 	<script
 		src="${pageContext.request.contextPath}/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -347,7 +369,83 @@
 			$(".textarea").wysihtml5({
 				locale : 'zh-CN'
 			});
-		});
+
+        })
+
+
+
+
+        $("#peoplenum").blur(function () {
+                var num = $("#peoplenum").val();
+
+            $.ajax({
+                url:"${pageContext.request.contextPath}/orders/peoplenum",
+                contentType:"application/json;charset=utf-8",
+                data:JSON.stringify({"peopleCount":num}),
+                dataType:"json",
+                type:"post",
+                success:function (order) {
+                    var str='';
+                    for(var i=0;i<order.peopleCount-1;i++){
+                        var str1='<tr>\n' +
+                            '                    <td>\n' +
+                            '                    <select class="form-control" style="height:28px" name="travellers['+i+'].travellerType">\n' +
+                            '                        <option value="1" selected>儿童</option>\n' +
+                            '                    <option value="0">成人</option>\n' +
+                            '                        </select>\n' +
+                            '                        </td>\n' +
+                            '                        <td>\n' +
+                            '                        <input type="text" size="10" name="travellers['+i+'].name">\n' +
+                            '                        </td>\n' +
+                            '                        <td>\n' +
+                            '                        <select class="form-control" style="height:28px" name="travellers['+i+'].sex">\n' +
+                            '                        <option value="男" selected>男</option>\n' +
+                            '                    <option value="女">女</option>\n' +
+                            '                        </select>\n' +
+                            '                        </td>\n' +
+                            '\n' +
+                            '                        <td><input type="text" size="20"\n' +
+                            '                    name="travellers['+i+'].phoneNum" >\n' +
+                            '                        </td>\n' +
+                            '                        <td><select class="form-control" style="height:28px" name="travellers['+i+'].credentialsType}">\n' +
+                            '                        <option value="0" selected>身份证</option>\n' +
+                            '                    <option value="1">护照</option>\n' +
+                            '                        <option value="2">军官证</option>\n' +
+                            '                        </select>\n' +
+                            '                        </td>\n' +
+                            '                        <td>\n' +
+                            '                        <input type="text" size="28" name="travellers['+i+'].credentialsNum" >\n' +
+                            '                        </td>\n' +
+                            '                        </tr>'
+                        str+=str1
+                    }
+
+
+                    $("#tbody").html(str);
+                }
+            })
+        })
+
+
+
+
+        $(document).ready(function() {
+            $('#datepicker-a3').datetimepicker({
+                format : "yyyy-mm-dd hh:ii",
+                autoclose : true,
+                todayBtn : true,
+                language : "zh-CN"
+            });
+        });
+
+        $(document).ready(function() {
+            $('#datepicker-a6').datetimepicker({
+                format : "yyyy-mm-dd hh:ii",
+                autoclose : true,
+                todayBtn : true,
+                language : "zh-CN"
+            });
+        });
 
 		// 设置激活菜单
 		function setSidebarActive(tagUri) {
