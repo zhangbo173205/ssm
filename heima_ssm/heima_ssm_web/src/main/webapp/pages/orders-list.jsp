@@ -255,7 +255,7 @@
 											<td class="text-center">
 												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/deleteById?id=${orders.id}'">删除</button>
 												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findByNum?orderNum=${orders.orderNum}'">详情</button>
-												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findByNum?orderNum=${orders.orderNum}'">编辑</button>
+												<button type="button" class="btn bg-olive btn-xs" onclick="location.href='${pageContext.request.contextPath}/orders/findByNum1?orderNum=${orders.orderNum}'">编辑</button>
 											</td>
 										</tr>
 									</c:forEach>

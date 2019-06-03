@@ -4,6 +4,7 @@ import com.itheima.domain.Orders;
 import org.apache.ibatis.annotations.*;
 import org.springframework.core.annotation.Order;
 
+import javax.naming.Name;
 import java.util.List;
 
 
@@ -64,8 +65,20 @@ public interface OrderDao {
     List<Orders> findByPid(String id) throws Exception;
 
     @Delete("delete from order_traveller where orderid=#{id} ")
-    void deleteRoleWithTraveller(String id);
+    void deleteRoleWithTraveller(String id)throws Exception;
 
     @Delete("delete from orders where id=#{id}")
-    void deleteByid(String id);
+    void deleteByid(String id)throws Exception;
+
+    @Insert("insert into orders (orderNum,orderTime,peopleCount,orderDesc,payType,orderStatus,productId,memberId) values (#{orderNum},#{orderTime},#{peopleCount},#{orderDesc},#{payType},#{orderStatus},#{product.id},#{member.id})")
+    void saveOrder(Orders order)throws Exception;
+
+    @Select("select id from orders where orderNum=#{orderNum}")
+    String findId(String orderNum)throws Exception;
+
+    @Insert("insert into order_traveller values(#{oid},#{tid})")
+    void saveOrderWithTraveller(@Param("oid") String oid,@Param("tid") String tid)throws Exception;
+
+    @Update("update orders set orderTime=#{orderTime},orderDesc=#{orderDesc},payType=#{payType},orderStatus=#{orderStatus},productId=#{product.id},memberId=#{member.id}")
+    void update(Orders order);
 }

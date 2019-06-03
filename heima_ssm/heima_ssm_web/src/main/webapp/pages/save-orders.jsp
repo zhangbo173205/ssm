@@ -116,14 +116,14 @@
 								</div>
 								<input type="text" class="form-control pull-right"
 									   id="datepicker-a3"
-									   name="orderTimeStr">
+									   name="orderTime">
 							</div>
 						</div>
 						<div class="col-md-2 title">路线名称</div>
 						<div class="col-md-4 data">
-							<select id="productName" class="form-control select2" style="width: 100%;" name="product.productName">
+							<select id="productName" class="form-control select2" style="width: 100%;" name="product.id">
 								<c:forEach items="${products}" var="product" >
-									<option value="${product.productName}" selected="selected">${product.productName}</option>
+									<option value="${product.id}" selected="selected">${product.productName}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -271,6 +271,8 @@
 			href="http://www.itcast.cn">研究院研发部</a>.
 		</strong> All rights reserved. </footer>
 		<!-- 底部导航 /-->
+		</div>
+	</div>
 
 
 
@@ -407,9 +409,9 @@
                             '                        <td><input type="text" size="20"\n' +
                             '                    name="travellers['+i+'].phoneNum" >\n' +
                             '                        </td>\n' +
-                            '                        <td><select class="form-control" style="height:28px" name="travellers['+i+'].credentialsType}">\n' +
+                            '                        <td><select class="form-control" style="height:28px" name="travellers['+i+'].credentialsType">\n' +
                             '                        <option value="0" selected>身份证</option>\n' +
-                            '                    <option value="1">护照</option>\n' +
+                            '                       <option value="1">护照</option>\n' +
                             '                        <option value="2">军官证</option>\n' +
                             '                        </select>\n' +
                             '                        </td>\n' +

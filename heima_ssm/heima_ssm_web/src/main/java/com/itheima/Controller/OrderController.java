@@ -2,7 +2,9 @@ package com.itheima.Controller;
 
 import com.github.pagehelper.PageInfo;
 import com.itheima.domain.Orders;
+import com.itheima.domain.Product;
 import com.itheima.service.OrderService;
+import com.itheima.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +28,9 @@ public class OrderController {
     @Autowired
     public OrderService orderService;
 
+    @Autowired
+    public ProductService productService;
+
 
     @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(name = "page", required = true, defaultValue = "1") Integer page,
@@ -45,6 +50,16 @@ public class OrderController {
         Orders order = orderService.findByNum(orderNum);
         mv.addObject("orders", order);
         mv.setViewName("orders-show");
+        return mv;
+    }
+    @RequestMapping(value = {"/findByNum1"}, params = "orderNum")
+    public ModelAndView findByNum1(String orderNum) throws Exception {
+        ModelAndView mv = new ModelAndView();
+        Orders order = orderService.findByNum(orderNum);
+        List<Product> products = productService.findAllForOrder();
+        mv.addObject("orders", order);
+        mv.addObject("products",products);
+        mv.setViewName("update-orders");
         return mv;
     }
 
